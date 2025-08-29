@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Salary Prediction Model</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Prevent caching so changes reflect immediately -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* keep container vertically centered */
+            color: #f4f4f9;
+        }
+        .container {
+            max-width: 420px;
+            width: 90%;
+            background: #1c1f2e;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4dd0e1;
+            font-weight: bold;
+            font-size: 1.8rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #e0e0e0;
+            font-size: 1rem;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.9rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #4dd0e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #2a2f42;
+            color: #ffffff;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #00e676;
+            box-shadow: 0 0 8px rgba(0,230,118,0.6);
+        }
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #0072ff, #00c6ff);
+            transform: scale(1.02);
+        }
+        .result {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #ffeb3b;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* 📱 Responsive design for phones */
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+                border-radius: 12px;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            label {
+                font-size: 0.9rem;
+            }
+            input, select, button {
+                font-size: 0.95rem;
+                padding: 0.8rem;
+            }
+            .result {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🔮 Salary Prediction Model</h2>
+        <form id="salaryForm">
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" min="18" max="70" required>
+
+            <label for="education">Education Level</label>
+            <select id="education" name="education" required>
+                <option value="" disabled selected>Select education level</option>
+                <option value="1">Bachelor's</option>
+                <option value="2">Master's</option>
+                <option value="3">PhD</option>
+            </select>
+
+            <label for="experience">Years of Experience</label>
+            <input type="number" id="experience" name="experience" min="0" max="50" required>
+
+            <button type="submit">Predict Salary</button>
+        </form>
+        <div id="result">$</div>
+    </div>
+    <script>
+        function predictSalary(age, education, experience) {
+            const base = 20000;
+            const ageCoef = 500;
+            const eduCoef = 10000;
+            const expCoef = 1500;
+            return base + (ageCoef * age) + (eduCoef * education) + (expCoef * experience);
+        }
+
+        document.getElementById('salaryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const age = parseInt(document.getElementById('age').value, 10);
+            const education = parseInt(document.getElementById('education').value, 10);
+            const experience = parseInt(document.getElementById('experience').value, 10);
+
+            if (isNaN(age) || isNaN(education) || isNaN(experience)) {
+                document.getElementById('result').textContent = "⚠️ Please fill all fields correctly.";
+                return;
+            }
+
+            const predictedSalary = predictSalary(age, education, experience);
+            document.getElementById('result').textContent = `Predicted Salary: $${predictedSalary.toFixed(2)}`;
+        });
+    </script>
+</body>
+</html>
